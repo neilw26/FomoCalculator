@@ -1,40 +1,64 @@
 // apiService.js
-export async function fetchCryptoPrice(symbol, date) {
-  try {
-    // 🧩 Example: CoinGecko API endpoint (no API key needed)
-    const res = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${symbol.toLowerCase()}/history?date=${formatDate(date)}`
-    );
-    const data = await res.json();
-    return data.market_data?.current_price?.usd || 0;
+import btcData from "./data/btc.json";
+import ethData from "./data/eth.json";
+import nvdaData from "./data/nvda.json";
+import qqqData from "./data/qqq.json";
+import solData from "./data/sol.json";
+import vooData from "./data/voo.json";
 
-    // console.log(`[API placeholder] Fetching crypto price for ${symbol} on ${date}`);
-    // return 100 + Math.random() * 100; // temporary mock data
+const cryptoMap = {
+  btc: btcData,
+  eth: ethData,
+  sol: solData,
+};
+
+const stockMap = {
+  nvda: nvdaData,
+  qqq: qqqData,
+  voo: vooData,
+};
+// ✅ Debug: Verify JSON imports are loaded
+console.log("BTC sample data:", btcData);
+console.log("ETH sample data:", ethData);
+console.log("NVDA sample data:", nvdaData);
+console.log("QQQ sample data:", qqqData);
+console.log("SOL sample data:", solData);
+console.log("VOO sample data:", vooData);
+export function fetchCryptoPrice(symbol, date) {
+  try {
+    const data = cryptoMap[symbol.toLowerCase()];
+    if (!data) throw new Error(`No data found for crypto: ${symbol}`);
+
+    const dateStr = typeof date === "string" ? date : date.toISOString().slice(0, 10);
+
+    const record = data.find(item => {
+      const itemDate = item.date.slice(0, 10); // normalize JSON date
+      return itemDate === dateStr;
+    });
+
+    return record?.price ?? 0;
   } catch (e) {
     console.error("fetchCryptoPrice error:", e);
     return 0;
   }
 }
 
-export async function fetchStockPrice(symbol, date) {
+export function fetchStockPrice(symbol, date) {
   try {
-    // 🧩 Example: Alpha Vantage API (replace DEMO_KEY with yours)
-    // const res = await fetch(
-    //   `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&apikey=YOUR_API_KEY`
-    // );
-    // const data = await res.json();
-    // return parseFloat(data["Time Series (Daily)"][date]["4. close"]) || 0;
+    const data = stockMap[symbol.toLowerCase()];
+    if (!data) throw new Error(`No data found for stock: ${symbol}`);
 
-    console.log(`[API placeholder] Fetching stock price for ${symbol} on ${date}`);
-    return 150 + Math.random() * 50; // temporary mock data
+    const dateStr = typeof date === "string" ? date : date.toISOString().slice(0, 10);
+
+    const record = data.find(item => {
+      const itemDate = item.date.slice(0, 10);
+      return itemDate === dateStr;
+    });
+
+    return record?.price ?? 0;
   } catch (e) {
     console.error("fetchStockPrice error:", e);
     return 0;
   }
 }
 
-// Helper for dd-mm-yyyy (CoinGecko format)
-function formatDate(dateStr) {
-  const [year, month, day] = dateStr.split("-");
-  return `${day}-${month}-${year}`;
-}
