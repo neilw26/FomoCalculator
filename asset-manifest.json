@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/FomoCalculator/static/css/main.af42914c.css",
-    "main.js": "/FomoCalculator/static/js/main.76a1118e.js",
+    "main.css": "/FomoCalculator/static/css/main.31b278bb.css",
+    "main.js": "/FomoCalculator/static/js/main.64549570.js",
     "static/js/453.69943d3b.chunk.js": "/FomoCalculator/static/js/453.69943d3b.chunk.js",
     "index.html": "/FomoCalculator/index.html",
-    "main.af42914c.css.map": "/FomoCalculator/static/css/main.af42914c.css.map",
-    "main.76a1118e.js.map": "/FomoCalculator/static/js/main.76a1118e.js.map",
+    "main.31b278bb.css.map": "/FomoCalculator/static/css/main.31b278bb.css.map",
+    "main.64549570.js.map": "/FomoCalculator/static/js/main.64549570.js.map",
     "453.69943d3b.chunk.js.map": "/FomoCalculator/static/js/453.69943d3b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.af42914c.css",
-    "static/js/main.76a1118e.js"
+    "static/css/main.31b278bb.css",
+    "static/js/main.64549570.js"
   ]
 }
