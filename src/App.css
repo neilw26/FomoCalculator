@@ -1,38 +1,208 @@
-.App {
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* Heading */
+h1 {
   text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Entry Rows */
+.entry-row {
   display: flex;
-  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: nowrap; /* keep horizontal */
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Common input style */
+.entry-row input,
+.dollar-input input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 14px;
+  color: #333;
+  background: #fdfdfd;
+}
+
+/* Date input */
+.entry-row input[type="date"] {
+  flex: 0 0 140px; /* wider */
+  min-width: 120px;
+}
+
+/* Dollar input */
+.dollar-input {
+  position: relative;
+  flex: 0 0 120px; /* fixed-ish width */
+  min-width: 100px;
+}
+
+.dollar-input .dollar-sign {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+}
+
+.dollar-input input {
+  padding-left: 20px;
+  width: 100%;
+}
+
+/* Reason input */
+.entry-row input[type="text"] {
+  flex: 1 1 auto; /* takes remaining space */
+  min-width: 100px; /* slightly smaller than before */
+}
+
+/* Remove button */
+.remove-btn {
+  background: #dc3545;
   color: white;
+  border: none;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 40px;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
 }
 
-.App-link {
-  color: #61dafb;
+.remove-btn:hover {
+  opacity: 0.9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Add/Calculate buttons */
+.add-btn,
+.calculate-btn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  width: 100%;
+  box-sizing: border-box;
+  background: #28a745;
+  color: white;
+  transition: opacity 0.2s;
+}
+
+.add-btn.disabled,
+.calculate-btn.disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.add-btn:hover.enabled,
+.calculate-btn:hover.enabled {
+  opacity: 0.9;
+}
+
+/* Results box */
+.results {
+  margin-top: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.result-entry {
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  color: #333;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .entry-row {
+    flex-wrap: nowrap;
+    gap: 8px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .entry-row input[type="date"] {
+    flex: 0 0 120px;
+    min-width: 100px;
+  }
+
+  .entry-row input[type="text"] {
+    flex: 1 1 auto;
+    min-width: 80px;
+  }
+
+  .dollar-input {
+    flex: 0 0 100px;
+    min-width: 80px;
+  }
+
+  .remove-btn {
+    flex-shrink: 0;
+  }
+
+  .add-btn,
+  .calculate-btn {
+    font-size: 16px;
+  }
+}
+
+/* Tiny screens (<360px) */
+@media (max-width: 360px) {
+  .container {
+    padding: 10px;
+  }
+
+  .entry-row {
+    gap: 5px; /* dynamic gap to fit */
+    padding: 8px;
+  }
+
+  .entry-row input[type="date"] {
+    flex: 0 0 100px;
+    min-width: 90px;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .dollar-input {
+    flex: 0 0 80px;
+    min-width: 70px;
+  }
+
+  .entry-row input[type="text"] {
+    flex: 1 1 auto;
+    min-width: 70px;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .remove-btn {
+    padding: 6px 8px;
+    font-size: 14px;
+    height: 36px;
+  }
+
+  .add-btn,
+  .calculate-btn {
+    padding: 8px 10px;
+    font-size: 14px;
   }
 }
