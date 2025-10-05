@@ -1,64 +1,52 @@
-// apiService.js
-import btcData from "./data/btc.json";
-import ethData from "./data/eth.json";
-import nvdaData from "./data/nvda.json";
-import qqqData from "./data/qqq.json";
-import solData from "./data/sol.json";
-import vooData from "./data/voo.json";
+import { allPriceData } from "./data";
 
-const cryptoMap = {
-  btc: btcData,
-  eth: ethData,
-  sol: solData,
+// Approximate starting prices (USD)
+const STARTING_PRICES = {
+  BTC: 0.003,   // 2010
+  ETH: 0.31,    // 2015
+  SOL: 0.22,    // 2020
+  NVDA: 10,     // Example start price
+  QQQ: 50,      // Example start price
 };
 
-const stockMap = {
-  nvda: nvdaData,
-  qqq: qqqData,
-  voo: vooData,
-};
-// ✅ Debug: Verify JSON imports are loaded
-console.log("BTC sample data:", btcData);
-console.log("ETH sample data:", ethData);
-console.log("NVDA sample data:", nvdaData);
-console.log("QQQ sample data:", qqqData);
-console.log("SOL sample data:", solData);
-console.log("VOO sample data:", vooData);
+/**
+ * Fetch crypto price for a specific date from local data
+ * @param {string} symbol - BTC, ETH, SOL
+ * @param {string} date - format "YYYY-MM-DD"
+ * @returns {number} price in USD
+ */
 export function fetchCryptoPrice(symbol, date) {
   try {
-    const data = cryptoMap[symbol.toLowerCase()];
-    if (!data) throw new Error(`No data found for crypto: ${symbol}`);
-
-    const dateStr = typeof date === "string" ? date : date.toISOString().slice(0, 10);
-
-    const record = data.find(item => {
-      const itemDate = item.date.slice(0, 10); // normalize JSON date
-      return itemDate === dateStr;
-    });
-
-    return record?.price ?? 0;
-  } catch (e) {
-    console.error("fetchCryptoPrice error:", e);
-    return 0;
+    const key = symbol.toUpperCase();
+    const record = allPriceData[date];
+    if (!record) {
+      console.warn(`No data found for date ${date}, returning starting price`);
+      return STARTING_PRICES[key] || 0;
+    }
+    return record[key] || STARTING_PRICES[key] || 0;
+  } catch (error) {
+    console.error("fetchCryptoPrice error:", error);
+    return STARTING_PRICES[symbol.toUpperCase()] || 0;
   }
 }
 
+/**
+ * Fetch stock price for a specific date from local data
+ * @param {string} symbol - NVDA, QQQ
+ * @param {string} date - format "YYYY-MM-DD"
+ * @returns {number} price in USD
+ */
 export function fetchStockPrice(symbol, date) {
   try {
-    const data = stockMap[symbol.toLowerCase()];
-    if (!data) throw new Error(`No data found for stock: ${symbol}`);
-
-    const dateStr = typeof date === "string" ? date : date.toISOString().slice(0, 10);
-
-    const record = data.find(item => {
-      const itemDate = item.date.slice(0, 10);
-      return itemDate === dateStr;
-    });
-
-    return record?.price ?? 0;
-  } catch (e) {
-    console.error("fetchStockPrice error:", e);
-    return 0;
+    const key = symbol.toUpperCase();
+    const record = allPriceData[date];
+    if (!record) {
+      console.warn(`No data found for date ${date}, returning starting price`);
+      return STARTING_PRICES[key] || 0;
+    }
+    return record[key] || STARTING_PRICES[key] || 0;
+  } catch (error) {
+    console.error("fetchStockPrice error:", error);
+    return STARTING_PRICES[symbol.toUpperCase()] || 0;
   }
 }
-

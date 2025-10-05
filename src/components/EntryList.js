@@ -1,15 +1,18 @@
 import React from "react";
 
-export default function EntryList({ entries, handleEntryChange, removeEntry, addEntry, today }) {
+export default function EntryList({ entries, handleEntryChange, removeEntry, addEntry, today, earliestDate }) {
   return (
     <div className="entries">
       {entries.map((entry, index) => (
         <div key={index} className="entry-row">
           <input
             type="date"
-            max={today}
+            min={earliestDate}     // earliest selectable date
+            max={today}            // latest selectable date
             value={entry.date}
             onChange={(e) => handleEntryChange(index, "date", e.target.value)}
+            onKeyDown={(e) => e.preventDefault()} // disables typing
+            onPaste={(e) => e.preventDefault()}   // disables paste
           />
           <div className="dollar-input">
             <span className="dollar-sign">$</span>

@@ -10,9 +10,9 @@ export default function Results({ results }) {
       {results.map((r, idx) => (
         <div key={idx} className="result-entry">
           <p>
-            If you had invested your money in <strong>{r.asset}</strong> instead of{" "}
+            If you had invested your money in <strong>{r.asset}</strong> instead of a {" "}
             <strong>{r.reasons.join(", ")}</strong>, it would now be worth $
-            {r.totalValue.toFixed(2)}.
+            {r.totalValue.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}.
           </p>
         </div>
       ))}

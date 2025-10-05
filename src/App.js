@@ -3,13 +3,17 @@ import EntryList from "./components/EntryList";
 import Results from "./components/Results";
 import { calculateReturns } from "./utils/calculate";
 import "./App.css";
+import {allPriceData} from "./data/index.js";
 
 function App() {
   const [entries, setEntries] = useState([{ date: "", amount: "", reason: "" }]);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const today = new Date().toLocaleDateString("en-CA");
+  // Get the last entry's date in the btcData array
+ const today = Object.keys(allPriceData).sort().pop();
+ const earliestDate = Object.keys(allPriceData).sort()[0];
+
 
   const handleEntryChange = (index, field, value) => {
     const updated = [...entries];
@@ -36,12 +40,21 @@ function App() {
     <div className="container">
       <h1>Fomo Calculator</h1>
 
+      <p>
+  Use this calculator to see how much money you could have potentially earned by investing instead of spending on unnecessary things. 
+  The calculator supports dates from {earliestDate} up to {today}. 
+  The dataset is updated every other week (automation in progress). 
+  In the future, I plan to switch to a backend and use API calls for real-time data.
+</p>
+
+
       <EntryList
         entries={entries}
         handleEntryChange={handleEntryChange}
         removeEntry={removeEntry}
         addEntry={addEntry}
         today={today}
+        earliestDate={earliestDate}
       />
 
       <button
